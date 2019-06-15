@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Buttons/btn_save.tscn" type="PackedScene" id=1]
+
+[node name="btn_load" instance=ExtResource( 1 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_right = 512.0
+
+[node name="Label" parent="." index="0"]
+margin_left = -49.0
+margin_right = 49.0
+text = "load"
+align = 1

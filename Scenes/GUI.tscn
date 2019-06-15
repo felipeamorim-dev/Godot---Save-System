@@ -1,0 +1,108 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scripts/GUI.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/plus_white.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/minus_white.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Buttons/btn_save.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Buttons/btn_load.tscn" type="PackedScene" id=5]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://Fonts/Hard Punk Gothik.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 75
+font_data = SubResource( 1 )
+
+[sub_resource type="GDScript" id=3]
+resource_name = "display_message"
+script/source = "extends Label
+
+
+func _ready():
+	save_system.connect(\"update_display_message\", self,  \"on_update_display_message\")
+
+func on_update_display_message():
+	text = str(save_system.contador)
+"
+
+[node name="GUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.266667, 0.286275, 0.478431, 1 )
+
+[node name="menu" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 150.0
+margin_top = 40.0
+margin_right = -150.0
+custom_constants/separation = 100
+
+[node name="display_message" type="Label" parent="menu"]
+margin_right = 724.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0.721569, 0.137255, 0.137255, 1 )
+custom_constants/shadow_offset_y = 5
+text = "0"
+align = 1
+script = SubResource( 3 )
+
+[node name="central_button" type="HBoxContainer" parent="menu"]
+margin_top = 198.0
+margin_right = 724.0
+margin_bottom = 236.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="btn_plus" type="Button" parent="menu/central_button"]
+editor/display_folded = true
+margin_left = 293.0
+margin_right = 337.0
+margin_bottom = 38.0
+icon = ExtResource( 2 )
+flat = true
+
+[node name="time_recovery_icon" type="Timer" parent="menu/central_button/btn_plus"]
+wait_time = 0.1
+one_shot = true
+
+[node name="btn_menos" type="Button" parent="menu/central_button"]
+editor/display_folded = true
+margin_left = 387.0
+margin_right = 431.0
+margin_bottom = 38.0
+icon = ExtResource( 3 )
+flat = true
+
+[node name="timer_recovery_icon" type="Timer" parent="menu/central_button/btn_menos"]
+wait_time = 0.1
+one_shot = true
+
+[node name="end_button" type="HBoxContainer" parent="menu"]
+margin_top = 336.0
+margin_right = 724.0
+margin_bottom = 398.0
+custom_constants/separation = 500
+alignment = 1
+
+[node name="btn_save" parent="menu/end_button" instance=ExtResource( 4 )]
+margin_right = 112.0
+
+[node name="btn_load" parent="menu/end_button" instance=ExtResource( 5 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 612.0
+margin_right = 724.0
+[connection signal="pressed" from="menu/central_button/btn_plus" to="." method="_on_btn_plus_pressed"]
+[connection signal="timeout" from="menu/central_button/btn_plus/time_recovery_icon" to="." method="_on_time_recovery_icon_timeout"]
+[connection signal="pressed" from="menu/central_button/btn_menos" to="." method="_on_btn_menos_pressed"]
+[connection signal="timeout" from="menu/central_button/btn_menos/timer_recovery_icon" to="." method="_on_timer_recovery_icon_menos_timeout"]
+[connection signal="pressed" from="menu/end_button/btn_save" to="." method="_on_btn_save_pressed"]
+[connection signal="pressed" from="menu/end_button/btn_load" to="." method="_on_btn_load_pressed"]
