@@ -19,8 +19,10 @@ script/source = "extends Label
 
 
 func _ready():
+	# Conecta o sinal update_display_message ao node display_message
 	save_system.connect(\"update_display_message\", self,  \"on_update_display_message\")
 
+# Atualiza o texto do node display_message
 func on_update_display_message():
 	text = str(save_system.contador)
 "
